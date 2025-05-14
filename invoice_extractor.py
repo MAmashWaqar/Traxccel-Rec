@@ -239,8 +239,17 @@ def render_procurement_review():
                     st.success("Verified and forwarded to Finance.")
                     st.rerun()
 
-    if not any_pending:
+    pending_procurement = [
+        row for row in st.session_state.data
+        if row["status"] == "Done"
+        and isinstance(row["json"], dict)
+        and (row["file"], row["page"]) not in already_verified
+        and (row["file"], row["page"]) not in already_approved
+    ]
+
+    if not pending_procurement:
         st.success("✅ All extracted invoices have been verified and forwarded to Finance.")
+
 
 
 def render_finance_approval():
