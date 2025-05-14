@@ -189,7 +189,7 @@ def render_main_page():
             if st.session_state.selected_view_idx == idx:
                 col1, col2 = st.columns([1, 2])
                 with col1:
-                    st.image(row["image"], caption="Input Page", use_column_width=True)
+                    st.image(row["image"], caption="Input Page", use_container_width=True)
 
                 with col2:
                     if isinstance(row["json"], dict):
@@ -225,7 +225,7 @@ def render_procurement_review():
         with st.expander(f"{row['file']} – Page {row['page']}"):
             col1, col2 = st.columns([1, 2])
             with col1:
-                st.image(row["image"], caption="Invoice Page", use_column_width=True)
+                st.image(row["image"], caption="Invoice Page", use_container_width=True)
 
             verified_entry = {}
             with col2:
