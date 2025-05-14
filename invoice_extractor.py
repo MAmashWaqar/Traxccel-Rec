@@ -206,6 +206,10 @@ def render_procurement_review():
 def render_finance_approval():
     st.title("💰 Head of Finance")
     verified_invoices = load_verified_invoices()
+    if not verified_invoices:
+        st.warning("⚠️ No invoices forwarded from Procurement yet.")
+        return
+
     approved_invoices = load_approved_invoices()
     updated_invoices = []
     for idx, invoice in enumerate(verified_invoices):
