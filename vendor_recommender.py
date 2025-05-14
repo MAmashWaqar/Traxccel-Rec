@@ -126,7 +126,7 @@ def main():
                     image = image.resize((400, int(image.height * 400 / image.width)), Image.LANCZOS)
                     st.markdown("---")
                     st.markdown(f"📎 **Recommended Invoice (Invoice {best_invoice_index}):**")
-                    st.image(image, use_column_width=False)
+                    st.image(image, use_container_width=False)
 
         except Exception as e:
             st.error(f"API Error: {e}")
