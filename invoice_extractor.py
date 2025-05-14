@@ -169,14 +169,28 @@ def render_main_page():
                 st.session_state.selected_view_idx = idx
                 st.rerun()
             if st.session_state.selected_view_idx == idx:
-                col1, col2 = st.columns([1, 2])
-                col1.image(row["image"], caption="Input Page", use_container_width=True)
-                if isinstance(row["json"], dict):
-                    flat = flatten_json(row["json"])
-                    df = pd.DataFrame(flat.items(), columns=["Field", "Value"])
-                    st.dataframe(df, use_container_width=True)
-                    st.download_button("📥 Download CSV for This Page", data=df.to_csv(index=False).encode("utf-8"),
-                                       file_name=f"{row['file'].replace('.pdf','')}_page_{row['page']}.csv", mime="text/csv")
+                st.markdown("---")  # Separator for clarity
+                st.subheader(f"📄 Detailed View: {row['file']} (Page {row['page']})")
+
+                view_col1, view_col2 = st.columns([1, 2])
+
+                with view_col1:
+                    st.image(row["image"], caption="Input Page", use_container_width=True)
+
+                with view_col2:
+                    if isinstance(row["json"], dict):
+                        flat = flatten_json(row["json"])
+                        df = pd.DataFrame(flat.items(), columns=["Field", "Value"])
+                        st.dataframe(df, use_container_width=True)
+                        csv_bytes = df.to_csv(index=False).encode("utf-8")
+                        st.download_button(
+                            label="📥 Download CSV for This Page",
+                            data=csv_bytes,
+                            file_name=f"{row['file'].replace('.pdf','')}_page_{row['page']}.csv",
+                            mime="text/csv"
+                        )
+                    else:
+                        st.write("⚠️ No valid data found.")
 
 def render_procurement_review():
     st.title("👨‍💼 Head of Procurement")
